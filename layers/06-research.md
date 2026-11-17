@@ -1,106 +1,133 @@
-# L1 · Research protocol
+# L1 · Research
 
-Required before `do-crazy`. Recommended for `do-design-new` on anything
-customer-facing. Skip for `do-design-review`.
+Required for `do-crazy` and `do-design-renew`, and for `do-design-new` whenever the brief
+is thin. The point is not to find something to copy: it is to find the material the
+project legitimately belongs to and what its real customers look for, so the design
+derives from the subject instead of from a template.
 
-The point is **not** to find something to copy. It is to find material the
-project legitimately belongs to, so the design derives from the subject instead
-of from a template.
+## Rules
 
-## Step 1 — The subject's physical world
+- **Thin brief = research, not defaults.** "Make it new" + a logo means: collect evidence
+  until the direction can be argued from it. Never fill a gap with the usual look or an
+  invented fact.
+- **Every finding carries its source** (URL, script output, or "user said"). No source,
+  no claim. What cannot be found is written as `unknown`, and becomes a question for the
+  user only if it changes the direction.
+- **Every finding ends in "for us"**: does it fit this business, and how do we make it
+  our own? A finding without that line is trivia.
+- **Tools.** Use whatever web search and page-fetch tools are available; a browser for
+  JS-heavy pages; the scripts below for anything measurable. Never enter credentials:
+  sources behind a login are used only where the user is already signed in, otherwise
+  skipped and named as skipped. Search with sector and place, never with private data.
 
-What does this business actually touch? List the objects, materials, places and
-instruments. This is where colour, texture and type come from — and it is the
-only source of distinctiveness that doesn't have to be invented.
+## 1. What exists
 
-Write 8–12 nouns. Then cross out the ones that are generic to the industry, and
-keep the ones that are specific to *this* operation.
+Logo: `scripts/research.py logo FILE` (colours by share, contrast, role hints). Existing
+site: `research.py profile URL`, `render-audit.py URL`, `audit.py copy`. Photos, print
+material, texts the owner wrote: list them. These are constraints and the first evidence.
 
-> A PV installer: roofs, ridge lines, cadastral maps, inverters, DC cable,
-> scaffolding, yield forecasts, shade from a chimney, the neighbour's tree.
-> Generic: "energy", "sustainability", "green future". ← cut those.
-> Specific: ridge lines, cadastral maps, shade analysis. ← those are material.
+## 2. The subject's physical world
 
-## Step 2 — What the audience already trusts
+What does the business actually touch? Write 8-12 nouns, cross out the ones generic to
+the industry, keep the ones specific to this operation. They are the only source of
+distinctiveness that does not have to be invented: colour, texture, imagery and type
+come from here.
 
-Trust signals are **audience-specific**, not universal. A 55-year-old trades
-customer and a 25-year-old founder read completely different signals.
+> SHK firm: boiler room, copper pipe, press fittings, the van, the bathroom before and
+> after, the heat pump in a front garden, the emergency call at 6 am, the Meister
+> certificate. Generic: "comfort", "energy", "solutions" (cut). Specific: copper,
+> before/after, the call at 6 am (material).
 
-Research, don't assume:
-- What does the audience already buy, and what do those purchases look like?
-- What does "serious" look like in their world? A handshake? A certificate? A
-  number? A photograph of a real building?
-- What have they been burned by? (That's often the trust signal to lead with.)
+## 3. Search demand: what people actually type
 
-## Step 3 — Category conventions, and the decision about them
+`research.py suggest "<service>" "<service> <town>" --lang de --expand` for each core
+service. Cluster the phrases into intents (emergency, renovation, replacement, cost,
+subsidy, maintenance) and map each cluster to a page, a heading or an FAQ answer.
+Autocomplete gives real phrasing and a popularity order, not volume: say so.
 
-Look at 5–8 competitors. For each, note: palette, type character, density,
-imagery, and the one thing that is theirs.
+## 4. Who ranks, and why
 
-Then classify the category's visual language:
+Search the 3-5 core queries with the place. Take the top organic results (skip ads,
+directories and portals, note them separately as competition for the click). Profile 5-8
+firms: `research.py profile URL ... [--shots DIR]`. Record what the ranking pages share:
+title and H1 pattern, one page per service, place names, phone above the fold, schema
+types, reviews, subsidy or price information, word count, speed. That is the on-page
+part of "why". Backlinks, domain age and the Google Business profile are outside a
+page profile: name them as unknown unless a source shows them.
 
-| Finding | Positions available |
+## 5. What real customers want
+
+Read what customers write, not what firms claim: reviews of the competitors' Google
+Business listings and trade directories, forum threads, "People also ask" boxes, Q&A
+sites. Collect 5-10 quotes with links: what gets praised, what gets complained about,
+what people were burned by (often the trust signal to lead with). Trust is
+audience-specific: a 60-year-old homeowner and a property manager read different signals.
+
+## 6. Category conventions, and the decision about them
+
+From the profiles: palette, type character, density, imagery, and the one thing each
+firm owns.
+
+| The category | Positions available |
 |---|---|
-| The category all looks the same | **Fit and be instantly legible**, or **depart and be the anomaly**. Both work; choose by mode. |
-| The category is visually chaotic | **Fit** — calm is the differentiator |
-| The category is outdated | **Depart** — but only if the audience reads "modern" as "trustworthy" |
+| looks all the same | fit and be instantly legible, or depart and be the anomaly; choose by mode |
+| is visually chaotic | fit: calm is the differentiator |
+| is outdated | depart, but only if the audience reads "modern" as trustworthy |
 
-Write the decision down with its reason. A departure without a reason is just taste.
+Write the decision down with its reason. A departure without a reason is taste.
 
-## Step 4 — Reference hunting: qualities, never layouts
+## 7. Visual references: qualities, never layouts
 
-Collect 5–10 references. For each, extract **the quality, not the artifact**:
+| Source | Good for | Access |
+|---|---|---|
+| land-book.com | landing pages by category and style | browser only (plain fetches are blocked) |
+| cosmos.so | moodboards: light, material, type | `cosmos.so/search/elements/<term>`, browser (JS) |
+| are.na | worlds and materials, archives, research boards | `research.py arena "<term>"` lists channels; open them in a browser |
+| savee.com | visual moodboards | login only: use it if the user is signed in, else skip |
+| mobbin.com | real app and web flows (booking, checkout, forms) | login/paid: only in the user's signed-in session |
 
-| Extract | Never extract |
+Search the subject's nouns from step 2, not the industry ("copper pipe", "boiler room
+light"), plus the character words. Collect 5-10 references. From each take the quality:
+composition, light, density and rhythm, restraint, type character. Never the layout,
+palette, section order, components or the specific face. The derivation test: can you
+name in one sentence what you took, and would it still be true in another medium? "The
+calm line weight of a technical drawing" transfers. "Their hero layout" is templating.
+
+## 8. Make it ours
+
+One table, written into the research file. Only rows with a "for us" column count.
+
+| Finding | Source | Fits us because / does not because | Make it ours by |
+|---|---|---|---|
+| Top 3 rankers put the emergency number in the header | profiles of x, y, z | fits: 30 % of suggest phrases are "notdienst" | number in the header, plus the real response time from the owner `[number needed]` |
+| Reviews praise "clean site after the job" | 6 quotes, Google listings | fits: owner's photos show it | before/after pairs as the signature moment |
+
+Then the five direction lines (SKILL.md), each traceable to a row, and the anti-default
+gate: for every line ask "would I have arrived here for any similar project?" If yes,
+revise and say what changed. Check against the second-order defaults, the tasteful
+looks that became templates themselves:
+
+| Default | Why it is a trap |
 |---|---|
-| Composition (where the subject sits) | The layout |
-| Light (direction, hardness) | The colour palette |
-| Density and rhythm | The section order |
-| Restraint (what they left out) | The components |
-| Type *character* | The specific face |
+| cream ground + terracotta + serif | the tasteful default of recent years |
+| near-black + one acid-green or vermilion accent | the "serious tech" default |
+| emerald or teal accent | purple-avoidance, still a default |
+| orange accent + serif | the "I avoided purple" signature |
+| mono micro-labels, `A · B · C`, `WORD - fragment` | template chrome |
+| broadsheet type on a non-publication | editorial cosplay |
+| one big photo + centred headline + pill CTA | the "designed" default |
+| engraving or woodcut as a filter | only when the whole brand lives there |
 
-**The derivation test:** can you say in one sentence what you took, and would it
-still be true if the reference were in a different medium? "The calm of a topo
-map's line weight" transfers. "Their hero layout" does not — that's templating.
+Escaping one template into another is a lateral move. The test is not "better than the
+violet gradient" but "this product's answer".
 
-## Step 5 — The direction, in five lines
+## 9. State the risk
 
-Before building anything, write exactly this:
+What might the audience misread? What does the direction make harder (conversion, trust,
+scannability)? What is the fallback? A direction with no stated risk was not ambitious
+enough or not thought through.
 
-1. **Product** — what it does, for whom, in one plain sentence.
-2. **Character** — two or three concrete words (no "modern", "clean").
-3. **World** — the place or material it belongs to. This sets the neutral tint,
-   the accent and the visual.
-4. **Moments** — one or two places where the screen gets rich (a rendered object,
-   a chart with real meaning, an image from the world).
-5. **Signature** — one small detail only this product would have, used
-   consistently. *One*, not five.
+## 10. Keep it
 
-## Step 6 — The anti-default gate
-
-For every line of the direction, ask: **would I have arrived here for any similar
-project?**
-
-If yes, revise it and state what changed. Then check against the known
-second-order defaults — the "tasteful" looks that have themselves become templates:
-
-| Default | Why it's a trap |
-|---|---|
-| Cream `#F4F1EA` + terracotta `#D97757` + serif | The tasteful default of the last two years |
-| Near-black + one acid-green or vermilion accent | The "serious tech" default |
-| Emerald/teal as the purple-avoiding accent | Purple avoidance, still a default |
-| Mono micro-labels + `A · B · C` + `WORD — fragment` | Template chrome |
-| Orange accent + serif | The "I avoided purple" signature |
-
-Escaping one template into another is a lateral move. The test is not "is this
-better than the violet gradient" — it's "is this *this product's* answer".
-
-## Step 7 — State the risk
-
-Every non-default direction carries a cost. Name it before building:
-
-- What might the audience misread?
-- What does this direction make harder (conversion, trust, scannability)?
-- What's the fallback if it fails?
-
-A direction with no stated risk wasn't ambitious enough, or wasn't thought through.
+Write steps 1-9 to `docs/design-research.md` in the project: sources, quotes, profiles,
+the table. The paper's §1 cites it; the next session reads it instead of researching again.

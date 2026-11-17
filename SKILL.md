@@ -1,263 +1,130 @@
 ---
 name: do-design
 description: >
-  Design work with a guardrail. Commands: do-audit (score an existing UI),
-  do-design-new (design something new), do-design-review (check work against the
-  project's design paper), do-design-renew (deliberate redesign of an existing
-  surface), do-crazy (off-rails creative direction after real market research).
-  Also installs guardrails that flag design changes contradicting the project's
-  DESIGN.md without anyone invoking this skill.
+  UI and visual design against a binding DESIGN.md, with scripts for everything
+  measurable. Use to design or restyle pages and components, review UI changes,
+  audit and score a UI, redesign a site, research a market before designing, push
+  a bold direction, or install a design guardrail in a repo. Commands: do-audit,
+  do-design-new, do-design-review, do-design-renew, do-crazy.
 license: MIT
-version: 1.0.0
+metadata:
+  version: 1.1.0
 ---
 
 # do-design
 
-Five commands, one model of how design actually gets decided, and a guardrail
-that runs without being asked.
+Paths are relative to this skill's folder; `P` is the project root. Scripts are
+stdlib Python 3.8+. **Run the script before reasoning about anything it measures**,
+cite its output, and never re-derive or estimate what it reports.
 
-**Read §Model before your first command.** It is the part that makes the
-commands work, and it is short.
+## Model
 
----
+1. **The project's `DESIGN.md` (the paper) is binding** and beats this skill. On conflict the paper wins; say so.
+2. **Every rule carries its reason.** A rule without one is deleted the first time it is inconvenient.
+3. **Evidence before defaults.** A thin brief ("make it new" + a logo) is a reason to research, not to fall back on the usual look or to invent facts. No source, no claim: mark the gap or ask.
+4. **Load lazily.** Only the files the command table names. Extra layers "for completeness" are a method failure.
+5. **Convention is the default, not the failure.** The mode decides how far to depart.
 
-## §Model — the four things that matter
+## Modes: state one line at the start of every command
 
-**1. Design is a set of decisions, not a set of rules.** A rule without a reason
-is deleted the first time it's inconvenient. Every rule in the project paper
-carries its reason.
-
-**2. Three layers, loaded as needed.** This is how the skill stays cheap.
-
-| Layer | What it is | Loaded |
+| Mode | The visitor is | Push |
 |---|---|---|
-| **L0 — This file** | Router, model, guardrail, scoring key | Always |
-| **L1 — `layers/`** | The fundamentals: colour, type, space, layout, motion, voice, research. ~1k tokens each | Only the layers the task touches |
-| **L2 — `references/`** | Depth: the slop catalog (45 named tells + voice), the critique rubric (thresholds + personas), the interview. Plus `examples/` — two worked papers | Only when the command says so |
+| Persuade | deciding and acting | hard: a template is a failure |
+| Operate | completing a task | restraint: convention is a feature |
+| Read | understanding something | medium: reading comfort wins |
+| Experience | inside the work itself | hard: the artifact leads |
 
-**Never load a layer "for completeness".** A task about a button does not need
-the layout layer. This is the whole point of the structure.
+Pick by surface, not product: a dev tool's landing page is Persuade, its settings screen Operate.
 
-**3. The project paper beats this skill.** `DESIGN.md` in the project root is
-binding. This skill is the *method* for producing and enforcing it — not a
-competing opinion. When they conflict, the paper wins and you say so.
+## Commands: load one command file, plus what its row names
 
-**4. Convention is the default, not the failure.** Fitting the category is right
-for tools, dashboards, checkout, docs. Departing is right for landing pages and
-anything selling a point of view. Which one applies is decided by the **mode**
-(§Modes), never by taste.
-
----
-
-## §Modes — decide this before anything else
-
-State the mode in one line at the start of every command. It decides how hard to
-push and which layer wins conflicts.
-
-| Mode | The visitor is… | Design's job | Push |
+| Command | Use when | Also load | Risk |
 |---|---|---|---|
-| **Persuade** | deciding and acting | earn attention, prove the offer | hard — a template is a failure |
-| **Operate** | completing a task | get out of the way, be predictable | restraint — convention is a feature |
-| **Read** | understanding something | structure for comprehension | medium — reading comfort wins |
-| **Experience** | inside the work itself | recede, let the artifact lead | hard — the artifact is the design |
+| `do-design-review` | "does this match the paper?" Cheapest, run most | the project's DESIGN.md | - |
+| `do-audit` | "how good is this?" Score + ranked findings | `references/critique-rubric.md`, `references/slop-catalog.md`, layers 00-05 the scope touches | - |
+| `do-design-new` | "build X": conventional, competent, on-paper | `layers/00`, the 1-3 layers the task touches; `layers/06` when the brief is thin or customer-facing | low |
+| `do-design-renew` | "redo this look": new world, same product truth | `layers/00`, `layers/06` | medium |
+| `do-crazy` | "something nobody in this sector would do" | `layers/00`, `layers/06` | high, by design |
 
-Pick by **surface, not product**. A dev tool's landing page is Persuade. The same
-product's settings screen is Operate.
+Layers: `00-craft-floor` (every mode) · `01-color` · `02-typography` · `03-space-layout` ·
+`04-motion-states` · `05-voice` · `06-research`. Writing a paper: `templates/DESIGN.md`,
+`examples/01-two-papers.md`, `references/interview.md`.
 
----
+## Scripts (all take `--json`)
 
-## §Commands
-
-| Command | Use when | Loads |
-|---|---|---|
-| **`do-audit`** | "How good is this?" — score an existing UI, ranked findings | L1 all + `commands/do-audit.md` + rubric |
-| **`do-design-new`** | "Build X" — new surface, conventional-safe | mode layer + 2–3 L1 + `commands/do-design-new.md` |
-| **`do-design-review`** | "Does this match the paper?" — check work in progress | `commands/do-design-review.md` + `DESIGN.md` |
-| **`do-design-renew`** | "Redo this" — deliberate replacement of an existing look | `commands/do-design-renew.md` + craft floor |
-| **`do-crazy`** | "Make me something nobody would expect" — after research | `commands/do-crazy.md` + research protocol |
-
-**Safe vs. bold, in one table:**
-
-| | Produces | Ceremony | Risk |
-|---|---|---|---|
-| `do-design-new` | conventional, competent, on-paper | direction → confirm → build | low |
-| `do-design-renew` | replaces a look, keeps product truth | audit → direction → confirm → build | medium |
-| `do-crazy` | off-distribution, one dominant move | **research first** → 3 directions → pick → build | high, by design |
-
-`do-crazy` is not "more styling". It is a different *world* — a structure, a
-material, a composition the category wouldn't attempt. If the output would look
-at home next to competitors, `do-crazy` failed.
-
----
-
-## §Scoring — the seven fields
-
-Every command that evaluates ends with this table. Numbers, not adjectives.
-Score 0–4 each; a 4 means genuinely excellent, not "fine".
-
-| # | Field | The question | Weight |
-|---|---|---|---|
-| 1 | **Hierarchy** | Can the most important thing be named in 2 seconds? | 3 |
-| 2 | **Legibility** | Contrast, type size, line length, real copy at every width | 3 |
-| 3 | **System** | One palette, one scale, one radius logic, one motion language | 2 |
-| 4 | **Craft** | Alignment, spacing rhythm, states, browser surfaces, detail | 2 |
-| 5 | **Content truth** | Real data, specific copy, no invented claims | 3 |
-| 6 | **Usability** | Task completes; affordances obvious; errors recoverable | 3 |
-| 7 | **Distinction** | Could this be swapped onto a competitor unchanged? | 2 |
-
-**Weighted score** = Σ(field × weight) / 72 × 100.
-
-| Score | Band | What to do |
-|---|---|---|
-| 85–100 | **Strong** | Ship. Fix only P0. |
-| 70–84 | **Sound** | Ship after the P1s the report names. |
-| 50–69 | **Weak** | A real pass is justified before shipping. |
-| <50 | **Failing** | The direction is wrong; rebuild, don't polish. |
-
-**Rules for scoring:**
-- Score the **rendered result**, never the source.
-- A field you could not check scores **0** and is marked `unverified` — never estimated.
-- `Distinction` scores 4 only if you can name what makes it *this* product's.
-- Report the **three worst fields** as the work list. A wall of findings is not a report.
-
----
-
-## §Guardrails — the part that runs uninvited
-
-The problem: a coding agent edits a button, picks a new blue because it needed
-one, and nobody notices for three months. A document nobody is told to read
-cannot prevent that.
-
-**The fix is placement.** Put the rule where every agent already looks.
-
-### Install
-
-Run `scripts/install-guardrails.sh <project-root>`. It does three things:
-
-1. **Writes `DESIGN.md`** if missing (from `templates/DESIGN.md`), or verifies the
-   existing one has a `<!-- TOKENS -->` block.
-2. **Appends a block to `AGENTS.md`** (and `CLAUDE.md`, `.cursorrules` if present)
-   — the file agents read at session start.
-3. **Writes `scripts/check-design.py`** — a dependency-free checker.
-
-### The AGENTS.md block (this is the guardrail)
-
-```markdown
-## Design guardrail (read before any UI change)
-
-`DESIGN.md` is binding. It lives in the repo root, section 2 holds the tokens.
-
-Before you change any colour, size, radius, font, shadow or spacing value:
-1. Find the token in DESIGN.md §2–§6.
-2. Use the token. Do not introduce a value that is not in the paper.
-3. If the task genuinely needs a value the paper lacks, **stop and ask**:
-   "The paper has no token for X. Add one (§12 amendment), or use <nearest>?"
-
-After changing UI files, run: `python3 scripts/check-design.py`
-It reports drift from the paper. Fix drift or explain it. Do not silence it.
-
-Hard rules, no exceptions without an amendment:
-- No colour outside the palette in §2, including in gradients and shadows.
-- No font outside §3. No new weights.
-- No radius, spacing or shadow value outside §4 and §6.
-- Accent colour: ≤5% of any screen, never body text.
-- No emoji as UI icons. No gradient-clipped text.
-- Every animation gated by `prefers-reduced-motion`.
-```
-
-**Why this placement works:** `AGENTS.md`/`CLAUDE.md` is loaded automatically by
-coding agents at session start — no invocation, no skill recall, no user memory
-involved. The agent doesn't need to know this skill exists to obey the paper.
-
-### The checker — what it actually catches
-
-`scripts/check-design.py` is ~120 lines, stdlib only, no Node, no deps. It reads
-the token block from `DESIGN.md` and greps the source tree for values that aren't
-in it:
-
-| Check | Catches |
+| Run | Gives |
 |---|---|
-| `hex-outside-palette` | Any `#RRGGBB` in CSS/TSX not declared in §2 |
-| `radius-outside-scale` | `border-radius` values not in §6 |
-| `spacing-outside-scale` | padding/margin/gap values not in §4 |
-| `font-outside-paper` | `font-family` declarations not in §3 |
-| `gradient-text` | `background-clip: text` — a ban, not a default |
-| `emoji-ui` | Emoji inside JSX/HTML attribute or text nodes |
-| `motion-ungated` | `@keyframes` or `animation:` with no `prefers-reduced-motion` in the file set |
+| `scripts/check-design.py --root P` | drift from the paper's token block. Exit 0 clean, 1 drift, 2 no paper/tokens. `--init` drafts tokens from the code |
+| `scripts/audit.py scan P` | source tells (IDs as in the slop catalog), a11y and browser-surface gaps, value inventory |
+| `scripts/audit.py copy P` | prose and microcopy tells, sentence rhythm, unfilled gap markers |
+| `scripts/audit.py contrast FG BG` / `--paper P/DESIGN.md` | WCAG ratios |
+| `scripts/audit.py score H L S C T U D` | weighted score, band, work list |
+| `scripts/render-audit.py URL-or-file [--shots DIR] [--inject-css FILE]` | the painted page at 1280/768/390: overlap, sideways scroll, clipping, painted contrast, tap targets, focus visibility. `--inject-css` measures a CSS fix against the deployed page before deploying. Needs Chrome/Chromium |
+| `scripts/research.py suggest\|profile\|logo\|arena` | real search phrasing, competitor page facts, logo colours, reference channels |
+| `bash scripts/install-guardrails.sh P` | DESIGN.md from the template, the AGENTS.md/CLAUDE.md block, the checker |
 
-Exit code 1 on findings, 0 on clean. `--json` for tooling.
+Screenshots cost far more context than script output: take them only for what needs
+eyes (hierarchy, distinction, composition), viewport only, 390 first. Scripts can be wrong
+too: before reporting a P0 that looks implausible, confirm it once (a targeted screenshot or
+the element's geometry), and fix the script if it was a false positive.
 
-**It is deliberately narrow.** It checks what is *mechanically* checkable and
-stays silent about taste. A checker that cries wolf gets disabled in a week.
+## Shared definitions
 
-### When the project has no paper
+**Swap test.** Replace the product name with a competitor's. If nothing breaks, the page
+says nothing about this product: unchosen, not ugly. Fix it in the copy, the visual and
+one signature detail, never by adding decoration.
 
-The guardrail still works — it just operates on *nothing*. Say so explicitly:
-
-> No `DESIGN.md`. The guardrail has no contract to enforce. Run
-> `do-design-new` or `do-design-review` to create one, or I can draft it from
-> the existing code (retrofit mode, ~15 min).
-
-Never invent a paper so the checker passes. That is the failure mode this whole
-skill exists to prevent.
-
----
-
-## §Non-negotiables
-
-1. **Never break working code.** Props, state, routing, handlers, a11y survive.
-   Copy keeps its meaning.
-2. **The brief wins.** A stated brand, font or colour outranks your taste — even
-   when it asks for something on the ban list. Write it into the paper rather
-   than arguing.
-3. **Never invent facts.** You may cut a vague claim; you may not replace it with
-   a specific one you made up. Mark the gap.
-4. **Load lazily.** Loading all layers when the task needs one is a failure of
-   the method, not thoroughness.
-5. **A clean result is a valid result.** Do not manufacture findings.
-6. **Fix, never accuse.** Never tell a client "this looks AI-generated". Report
-   what is unchosen and what to do instead.
-
----
-
-## §Files
-
+**Direction, five lines.** Written before building, shown, then wait for a yes (if told
+"just do it", state the assumption in one line and go):
 ```
-SKILL.md              ← you are here (L0, always loaded)
-commands/             ← the five playbooks
-layers/               ← L1 fundamentals, ~1k tokens each
-references/           ← L2 depth, loaded on demand
-templates/DESIGN.md   ← the paper template
-scripts/              ← guardrail installer + checker
-examples/             ← two filled papers that disagree
+Product:    what it does, for whom, one plain sentence
+Character:  2-3 concrete words (never clean, modern, sleek, minimal, premium)
+World:      the place or material it belongs to; sets neutral tint, accent, imagery
+Moments:    1-2 places where the screen gets rich
+Signature:  one detail only this product has, used consistently
 ```
 
-| Layer file | Covers |
-|---|---|
-| `layers/00-craft-floor.md` | The absolute floor — the checks that must pass in every mode |
-| `layers/01-color.md` | Roles, ramps, accent budget, contrast, dark mode |
-| `layers/02-typography.md` | Faces, scale, measure, figures, the CSS pass |
-| `layers/03-space-layout.md` | Scale, density, grid, containers, responsive |
-| `layers/04-motion-states.md` | Durations, easing, entrance, loading/empty/error |
-| `layers/05-voice.md` | Tone, headlines, labels, banned words, copy tests |
-| `layers/06-research.md` | Market/world research protocol (required for `do-crazy`) |
+**Gap marker.** `[number needed]`, `[source needed]`, `[photo needed]` where a fact or
+asset is missing. `audit.py copy` lists the ones still open; none may ship.
 
----
+## Scoring: every evaluating command ends with it
 
-## §Token discipline
+| # | Field | Question | W |
+|---|---|---|---|
+| 1 | Hierarchy | Can the most important thing be named in 2 seconds? | 3 |
+| 2 | Legibility | Contrast, size, measure, real copy at every width | 3 |
+| 3 | System | One palette, one scale, one radius logic, one motion language | 2 |
+| 4 | Craft | Alignment, spacing rhythm, states, browser surfaces | 2 |
+| 5 | Content truth | Real data, specific copy, no invented claims | 3 |
+| 6 | Usability | Task completes; affordances obvious; errors recoverable | 3 |
+| 7 | Distinction | Does it pass the swap test? | 2 |
 
-This skill is designed to be cheap. Numbers, measured on this file set:
+Score each 0-4 (4 = genuinely excellent, not "fine") and compute with `audit.py score`.
+Bands: 85+ Strong, ship and fix P0 only · 70-84 Sound, ship after the named P1s ·
+50-69 Weak, a real pass first · <50 Failing, the direction is wrong: rebuild (`do-design-renew`).
+Score the render, not the source. A field you could not check is `u`: it scores 0 and
+reads `unverified`, never an estimate. Distinction gets 4 only if you can name what makes
+it this product's. The three worst fields are the work list, one action each.
 
-| State | Loaded | ~Tokens |
-|---|---|---|
-| Idle (subscribed, not invoked) | description only | ~90 |
-| `do-design-review` | L0 + command + paper | ~3.8k |
-| `do-crazy` | + research layer + craft floor | ~6.5k |
-| `do-design-new` | + command + 4 layers | ~7.9k |
-| `do-audit` | + all layers + rubric | ~15.3k |
+Severity: **P0** blocks shipping (broken, unreadable, hard ban), report all · **P1**
+damages trust, top 5 · **P2** craft, top 5 · **P3** polish, list only.
+Finding format: `[Pn] location - what is wrong - fix`; script findings keep their ID.
 
-Measured, not estimated (`wc -c / 4`). All seven layers together are ~6.7k — the
-reason `do-audit` is the only command that loads them all.
+## No paper
 
-Never load all five command files. Never load `references/` unless a command
-names the file it needs.
+Say "No DESIGN.md: the guardrail has nothing to enforce." Offer to write it (template +
+interview), or a retrofit from the code (`check-design.py --init` + interview §Retrofit): v1.0 is
+what ships, old values go into `legacy:` (counted, not failed), gaps into the paper's delta list.
+Archives and demos stay out of every scan via `skip:` in the token block (or `--skip a,b`),
+by folder or file. Grep for imports before skipping: archive folders often hold live parts.
+Never invent a paper so the checker passes.
+
+## Non-negotiables
+
+1. **Never break working code.** Props, state, routing, handlers and a11y survive; copy keeps its meaning.
+2. **The brief wins.** A stated brand, font or colour outranks taste, even on a refuse list. Write it into the paper (`allow:` in the token block switches a checker rule or audit ID off on purpose).
+3. **Never invent facts, assets or sources.** Cut a vague claim; never replace it with an invented specific. Use a gap marker.
+4. **Keep the author's voice.** Cut machine habits, keep the person's quirks.
+5. **Density, not presence.** Act on clusters (3+ distinct P0/P1 tells), never on one gradient or one em dash. A clean result is valid; never manufacture findings.
+6. **Fix, never accuse.** Never say "this looks AI-generated"; name what is unchosen and what to do instead.
+7. **Read-only unless asked** for reviews and audits.

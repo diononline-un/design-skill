@@ -1,7 +1,7 @@
 # Worked examples — what a filled paper looks like
 
 Two examples at opposite ends of the spectrum. Read both: the difference between
-them is the point. Neither is a template to copy — they show the *shape* of a
+them is the point. Neither is a template to copy: they show the *shape* of an
 answer, and how far the answers diverge for two different subjects.
 
 ---
@@ -27,11 +27,28 @@ answer, and how far the answers diverge for two different subjects.
 | Ink | `--ink` | `#1F1B16` | all text | decoration |
 | Ink secondary | `--ink-2` | `#5E554A` | captions, meta | headlines |
 | Line | `--line` | ink @ 10 % | rules, dividers | emphasis |
-| Accent | `--signal` | `#B4653A` | one action, one figure | body text |
-| Accent ink | `--signal-ink` | `#1F1B16` | text on the accent | else |
+| Accent | `--signal` | `#4F5E2A` lichen | one action, one figure | body text |
+| Accent ink | `--signal-ink` | `#F7F4EE` | text on the accent | else |
+
+<!-- TOKENS
+ground: #F7F4EE
+ink: #1F1B16 #5E554A
+accent: #4F5E2A
+on-accent: #F7F4EE
+ground-dark: #17150F           // "dusk": re-measured, not inverted
+ink-dark: #EDE6DA #A89E8F
+accent-dark: #9AA66B           // lighter, less chroma: saturated colour vibrates on dark
+on-accent-dark: #17150F
+radius: 0 8 14 18
+spacing: 0 4 8 16 24 32 48 64 96
+fonts: Newsreader "Source Sans 3"
+-->
 
 - Warm ramp because the subject is outdoors in daylight, not a screen at night.
-- **Accent budget:** one instance per screen. The warm tone is the only saturated
+- **Anti-default gate:** the first draft had a terracotta accent. Cream + terracotta +
+  serif is the tasteful default, so it was replaced by lichen, the colour of moss on
+  the stones that mark a trail. 6.45:1 as text and with text on it.
+- **Accent budget:** one instance per screen. The lichen is the only saturated
   moment; everything else is ramp.
 - **Dark mode:** yes — "dusk", not inverted. Ground becomes `#17150F`, ink stays
   warm; the accent **loses** saturation at dusk (it vibrates on dark).
@@ -41,7 +58,7 @@ answer, and how far the answers diverge for two different subjects.
 | Job | Face | Weights | Used for |
 |---|---|---|---|
 | Display | Newsreader | 400 | h1, h2 |
-| Body | A humanist sans, self-hosted | 400, 500 | everything else |
+| Body | Source Sans 3 (humanist), self-hosted | 400, 500 | everything else |
 | Mono | none | — | — |
 
 - Display is a serif because the product is about *reflection*, and serifs read as
@@ -142,7 +159,17 @@ answer, and how far the answers diverge for two different subjects.
 | Job | Face | Weights | Used for |
 |---|---|---|---|
 | UI | Inter | 400, 500, 600 | everything |
-| Mono | a mono with tabular figures | 400 | quantities, SKUs, dates, deltas |
+| Mono | IBM Plex Mono (tabular figures) | 400 | quantities, SKUs, dates, deltas |
+
+<!-- TOKENS
+ground: #0F0F10 #19191B
+ink: #EDEDED #A1A1A6 #85858B
+accent: #3E7BFA
+color: #0F0F10                  // dark text on the off-white primary button
+radius: 0 8 12 14
+spacing: 0 2 4 8 12 16 20 24 32 48 64
+fonts: Inter "IBM Plex Mono"
+-->
 
 - Inter here is **a decision, not a default**: it has the largest x-height of the
   candidates at 12–13 px, which is where 80 % of this UI lives. Recorded so

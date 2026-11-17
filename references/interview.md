@@ -1,134 +1,55 @@
-# The design interview
+# L2 · The design interview
 
-Ask in **batches**, not one at a time. Read the project first (step 1) so that
-every question here is about a *choice*, never a fact you could have looked up.
+Read the project and run the research first, so every question is about a choice, never
+a fact you could have looked up. Ask in batches, with the consequence attached. Ask to
+confirm an inference rather than to collect: "The code uses copper `#8C5A3C` as a single
+signal with a serif. That reads as craft and heritage. Is that the business, or a leftover?"
 
-**Never ask a question you can infer.** Ask to confirm an inference instead:
-> "I read the code: you're using copper `#8C5A3C` as a single signal with a serif.
-> That reads as craft and heritage. Is that the business, or a leftover?"
+Stop when you can predict the answer to a question you have not asked yet.
 
----
+## Batches (skip what research already answered)
 
-## Batch 1 — Positioning (ask first, everything else depends on it)
-
-1. Who is this for, **specifically enough to exclude someone**? Who is it *not* for?
-2. What should a visitor feel in the first three seconds?
-3. If they remember one thing tomorrow, what is it?
-4. Should this look like its sector, or deliberately not?
-
-> For Q4, offer the consequence, don't ask open:
-> *"Fitting in buys trust — people already know how to read it. Standing out buys
-> attention but costs a beat of confusion. Which does this business need more?"*
-
----
-
-## Batch 2 — Colour
-
-5. Is there a colour you **own**, or one you refuse? Why that one?
-6. Light, dark, or both? Which is primary?
-7. What must never appear on this site?
-
-If they name a colour, follow up on **role**, not taste:
-> "Is that colour the thing people click, or the thing they sit on?"
-> (Accent vs. ground — the two most confused roles.)
-
----
-
-## Batch 3 — Typography
-
-8. Any existing brand face, or are we choosing? (Check the logo and any print
-   material first — often there's a face nobody mentioned.)
-9. If choosing: hard, soft, technical, editorial, or friendly? *(Offer two, not five.)*
-10. How much text does a typical page carry — a sentence, a paragraph, or pages?
-
-> Q10 decides the body face and the scale. A one-sentence-per-section site can
-> afford a display face for body; a documentation site cannot.
-
----
-
-## Batch 4 — Space and density
-
-11. Dense and information-rich, or airy and sparse?
-12. How much content should one screen hold?
-
-> These two are the same question. If the answers conflict ("airy *and* lots of
-> content"), surface the conflict now — it's the most common one and it will
-> otherwise be resolved accidentally by whoever codes first.
-
----
-
-## Batch 5 — Motion
-
-13. Should it feel static and calm, or alive? What's the ceiling?
-14. Any animation you've seen that you liked — or hated?
-
-> "Alive" usually means three things and only one is wanted: entrance animation,
-> continuous background motion, or responsive interaction feedback. Ask which.
-
----
-
-## Batch 6 — Imagery
-
-15. Are there real photos? Of what? Who takes them?
-16. Illustration budget: none, some, or a system?
-17. What should we show when we have no image for a slot?
-
-> Q17 is the one that prevents shipped grey placeholders.
-
----
-
-## Batch 7 — Voice
-
-18. Three adjectives for the tone. *(Reject clean, modern, sleek, premium — they
-    describe every template, so they decide nothing. Push once: "if a competitor
-    said that about themselves, would it be false?")*
-19. What words do you hate?
-20. Paste something you wrote that sounds like you. *(The most useful input in
-    the whole interview. A transcript, an email, a post — the real voice is in
-    there, and it's usually better than the website copy.)*
-
----
-
-## Batch 8 — Constraints
-
-21. Accessibility requirements beyond AA?
-22. Existing assets that must stay (logo, colours, fonts, imagery)?
-23. Deadline and budget shape?
-
-> Q23 decides ambition, which decides the system's complexity. A 3-week launch
-> does not get a 4-tier elevation system.
-
----
-
-## When to stop
-
-Stop when you can **predict their answer** to a question you haven't asked. That
-is the signal the model is complete — not when the list is exhausted.
-
----
+1. **Positioning, first, everything depends on it.** Who is it for, specifically enough to
+   exclude someone, and who not? What should a visitor feel in three seconds? One thing
+   to remember tomorrow? Fit the sector or depart? Offer the consequence: "Fitting in buys
+   trust, people already know how to read it. Standing out buys attention but costs a
+   beat of confusion. Which does this business need more?"
+2. **Colour.** A colour you own or refuse, and why? Light, dark or both, which primary?
+   What must never appear? If they name a colour, ask its role: "is it what people click,
+   or what they sit on?"
+3. **Type.** An existing brand face (check the logo and print material first)? If choosing:
+   offer two characters, not five. A sentence, a paragraph or pages per screen? That
+   decides body face and scale.
+4. **Density.** Dense or airy, and how much per screen? These are one question: surface a
+   conflict ("airy and lots of content") now, or whoever codes first resolves it by accident.
+5. **Motion.** Calm or alive, and the ceiling? "Alive" means entrances, continuous motion
+   or interaction feedback: ask which.
+6. **Imagery.** Real photos, of what, by whom? Illustration: none, some, a system? What
+   shows when a slot has no image? (The question that prevents shipped grey placeholders.)
+7. **Voice.** Three words for the tone; reject clean, modern, sleek, premium once ("would
+   it be false if a competitor said it?"). Words you hate? Paste something you wrote that
+   sounds like you: the most useful input of the interview.
+8. **Constraints.** Accessibility beyond AA? Assets that must stay? Deadline and budget:
+   they set the ambition, and a 3-week launch does not get a 4-level elevation system.
 
 ## Red flags in answers
 
-| Answer | What it usually means | Follow up with |
+| Answer | Usually means | Follow up |
 |---|---|---|
-| "Modern and clean" | No decision has been made yet | "Show me two sites you'd call modern. What do they share?" |
-| "Like Apple" | Wants restraint without a reason for it | "Apple's look is a retail decision. What's the equivalent here?" |
-| "Whatever looks good" | Delegating taste to you — fine, but make it explicit | "Then I'll decide and write down why. You'll get one revision." |
-| "Make it pop" | Wants emphasis, has no hierarchy | "What's the one thing on the page that must pop? Only one can." |
-| "We want to stand out" | Usually means "we're afraid of being boring" | "Standing out costs a beat of confusion. Worth it? Where?" |
-| Long silence, then "you decide" | Real answer: they don't know their audience yet | Go back to Batch 1, Q1. Everything downstream is guesswork. |
+| "modern and clean" | nothing decided yet | "Show me two sites you call modern. What do they share?" |
+| "like Apple" | restraint without a reason | "Apple's look is a retail decision. What is the equivalent here?" |
+| "whatever looks good" | taste delegated | "Then I decide and write down why. You get one revision." |
+| "make it pop" | emphasis without hierarchy | "Which one thing must pop? Only one can." |
+| "we want to stand out" | afraid of being boring | "Standing out costs a beat of confusion. Worth it, and where?" |
+| silence, then "you decide" | they do not know their audience yet | back to batch 1, question 1; everything else is guesswork |
 
----
+## Retrofit (an existing project)
 
-## For an existing project: the retrofit variant
-
-Don't ask what they *want*. Ask what's **true**:
-
-1. Which of these tokens in the code were deliberate, and which are accidents?
-2. Which of these patterns appears on more than one page?
-3. Is there anything in the code that contradicts what you *think* the design is?
-4. What would you fix first if time were free?
-
-Then write the paper as **v1.0 of what actually ships**, plus a delta list. A
-retrofit that demands a rewrite gets abandoned; one that codifies reality and
-prices the gaps gets adopted.
+Ask what is true, not what they want: which tokens in the code are deliberate and which
+accidents (`check-design.py --init` lists them by frequency, one-offs flagged)? Which
+patterns repeat across pages? What in the code contradicts what you think the design is?
+What would you fix first if time were free? Then write the paper as v1.0 of what actually
+ships, plus a delta list (each gap with its evidence and a proposed fix). Values that still ship
+but must not spread go into `legacy:`. If several design documents exist, the paper replaces them
+as the one source: mark the old ones as superseded and point AGENTS.md at the paper. A retrofit that demands a rewrite is abandoned; one that
+codifies reality and prices the gaps is adopted.

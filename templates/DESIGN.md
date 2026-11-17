@@ -20,6 +20,7 @@ reads it in six months with no context.>
 - **One thing to remember tomorrow:** <single sentence>
 - **Convention stance:** <fits the sector | deliberately departs>
   — because <reason>
+- **Evidence:** `docs/design-research.md` — every claim in this paper traces to it
 
 ---
 
@@ -36,7 +37,24 @@ reads it in six months with no context.>
 | Accent ink | `--signal-ink` | | text placed ON the accent | anything else |
 | Surface raised | `--surface-2` | | cards, popovers | page background |
 
-**Contrast floors** — measured with a checker, not estimated:
+Machine-readable copy of §2–§6 for `scripts/check-design.py` (it reads only this block;
+keep it in sync, hex values, `allow:` switches a rule off on purpose):
+
+<!-- TOKENS
+ground:     // page and surface colours
+ink:        // text colours, 3-4 derived steps
+accent:     // the one accent
+on-accent:  // text placed on the accent
+color:      // every other allowed colour: semantic, lines
+            // dark mode: ground-dark, ink-dark, accent-dark, on-accent-dark
+            // retrofit: legacy: old values still shipping, counted but never failed
+            // skip: folders that are not the product (archives, demos), by name or path
+radius:     // e.g. 0 4 8 12 9999
+spacing:    // e.g. 0 4 8 12 16 24 32 48 64 96 128
+fonts:      // quote names with spaces
+-->
+
+**Contrast floors** — measured (`audit.py contrast --paper DESIGN.md`), not estimated:
 - Body text ≥ **4.5:1** against its actual painted background
 - Large text (≥24 px or ≥19 px bold) and UI boundaries ≥ **3:1**
 - Text on accent ≥ **4.5:1**, checked separately from accent-as-text
@@ -48,8 +66,8 @@ reads it in six months with no context.>
 design, not an inversion>
 **Banned colours:** <list, with reason>
 
-**Reason for this palette:** <one paragraph, traced to the subject's world or the
-audience's expectations from research step 2>
+**Reason for this palette:** <one paragraph, traced to the subject's world or what real
+customers trust (research steps 2 and 5)>
 
 ---
 
@@ -77,7 +95,7 @@ audience's expectations from research step 2>
 **Rules**
 - Hierarchy from **size and colour first**, weight second.
 - Negative tracking only on display ≥ 32 px. Never on small text.
-- Body measure **45–75 characters**, target 60–70.
+- Body measure **45–75 characters**, target ~65.
 - Numbers: `tabular-nums` wherever figures are compared or change. One format.
 - Sentence case is the default. Title Case and tracked ALL-CAPS are decisions.
 - Self-hosted only. No third-party font requests.

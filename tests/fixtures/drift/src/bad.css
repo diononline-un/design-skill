@@ -1,0 +1,8 @@
+/* #123456 in a comment is not drift */
+:root { --signal: #8C5A3C; --line: rgba(20, 22, 26, .1); --font-sans: "Geist", sans-serif; --font-weight-bold: 700; }
+.hero { padding: 13px 16px; margin: -8px 0 0; border-radius: 6px; }
+.cta { color: #2563EB; background: oklch(0.62 0.19 45); box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.title { background-clip: text; -webkit-background-clip: text; font-family: "Inter", system-ui, sans-serif; }
+.card { border-radius: 0.5rem; gap: 1.5rem; padding: 0.75rem; color: #8c5a3c80; }
+@keyframes rise { from { opacity: 0 } to { opacity: 1 } }
+:root { --t-display: "Comic Neue", cursive; }
