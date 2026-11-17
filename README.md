@@ -8,7 +8,7 @@ search for.
 Works with any agent that reads `SKILL.md` (Claude Code, Cursor, Codex, Copilot and others).
 
 ```bash
-git clone <this-repo> ~/.claude/skills/do-design      # Claude Code, user-wide
+git clone https://github.com/diononline-un/design-skill ~/.claude/skills/do-design   # Claude Code, user-wide
 # or copy the folder into .claude/skills/ · .cursor/skills/ · .agents/skills/
 ```
 
