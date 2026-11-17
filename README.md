@@ -139,7 +139,7 @@ Seven weighted fields, because "looks good" is not a report.
 |---|---|---|
 | **L0** | `SKILL.md` — router, model, scoring, guardrail | always |
 | **L1** | `layers/` — colour, type, space, motion, voice, research | only what the task touches |
-| **L2** | `references/` — slop catalog, critique rubric, render audit, interview | only when a command names it |
+| **L2** | `references/` — slop catalog (45 tells + voice), critique rubric (thresholds + personas), interview | only when a command names it |
 
 | State | ~Tokens (measured) |
 |---|---|

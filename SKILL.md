@@ -32,8 +32,8 @@ carries its reason.
 | Layer | What it is | Loaded |
 |---|---|---|
 | **L0 — This file** | Router, model, guardrail, scoring key | Always |
-| **L1 — `layers/`** | The fundamentals: colour, type, space, layout, motion, states, voice. ~4k tokens each | Only the layers the task touches |
-| **L2 — `references/`** | Depth: the full craft floor, the slop catalog, the critique rubric, two worked papers | Only when the command says so |
+| **L1 — `layers/`** | The fundamentals: colour, type, space, layout, motion, voice, research. ~1k tokens each | Only the layers the task touches |
+| **L2 — `references/`** | Depth: the slop catalog (45 named tells + voice), the critique rubric (thresholds + personas), the interview. Plus `examples/` — two worked papers | Only when the command says so |
 
 **Never load a layer "for completeness".** A task about a button does not need
 the layout layer. This is the whole point of the structure.
@@ -225,7 +225,7 @@ skill exists to prevent.
 ```
 SKILL.md              ← you are here (L0, always loaded)
 commands/             ← the five playbooks
-layers/               ← L1 fundamentals, ~4k tokens each
+layers/               ← L1 fundamentals, ~1k tokens each
 references/           ← L2 depth, loaded on demand
 templates/DESIGN.md   ← the paper template
 scripts/              ← guardrail installer + checker

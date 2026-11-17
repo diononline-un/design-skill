@@ -1,27 +1,31 @@
-# The unslop catalog — 45 machine-detectable tells
+# L2 · Slop catalog — 45 named tells
 
-Vendored from **SalvatoreCampagnese/unslop-skill** (MIT, see `scripts/UNSLOP-LICENSE`). Reproduced here because it is the only source in this skill with **deterministic, runnable detection** — findings are located (file:line) rather than vibes.
+A named list of the defaults that arrive uninvited. Use it as **vocabulary**: when
+something feels off, name the tell, then say what to do instead. It is not a
+checklist to run top to bottom, and it is not a script's job list.
 
-**The authoritative doc is the repo.** This file is a working summary; the scanners in `scripts/` are the real implementation.
+**This catalogue is read by judgement, not by grep.** The mechanical subset lives
+in `scripts/check-design.py` (seven checks). Everything else here needs eyes on a
+render.
 
-## How to run the scanners
+## The rule that governs it
 
-```bash
-SK=~/.hermes/skills/creative/ui-design-polish
+> **A tell is evidence of a default nobody chose. It is not proof a model wrote
+> it, and not automatically wrong.**
 
-# frontend source (HTML/CSS/React/Vue/Svelte/Astro/Tailwind/shadcn)
-node $SK/scripts/detect-ui.mjs <paths...>
+Fix, never accuse. Never report "this is AI-generated" to a client. **Density, not
+presence**: one gradient is not slop, one em dash is not slop — act on clusters.
+Below ~3 co-occurring tells, report nothing.
 
-# prose (Markdown/HTML/text, EN + IT)
-node $SK/scripts/detect-text.mjs <paths...>
+**Do not flag in isolation:** rounded corners, cards, Inter, gradients,
+glassmorphism, bento grids, aurora backgrounds. Designers shipped all of these
+before LLMs. Restraint executed well is a decision, not timidity.
 
-# what actually got painted — headless Chrome at 1280/768/420
-node $SK/scripts/audit-render.mjs <page> --widths=1280,768,420
-```
-
-Flags: `--json`, `--min=P1`, `--max-score=N`, `--strict`, `--rules`, `--init-config`, `--record=<project>`, `--no-config`.
-
-**Write the config (`unslop.palette.json` + `unslop.style.json`) before trusting the score.** Declared brand colours silence the generic-violet rules and invert `X1` to report *drift from your own palette*. Without a config, a legitimately violet brand gets told its violet is slop.
+**Declare the brand first.** Before applying the catalogue, write the project's
+palette and faces into `DESIGN.md`. Once declared, a legitimately violet brand
+stops being told its violet is slop, and the interesting question inverts: not
+"is this a default?" but "is this *off* the decision we already made?" (see
+`X1`/`X2`).
 
 ## Score bands
 
@@ -176,8 +180,54 @@ Repo-level signals (`CLAUDE.md`, `AGENTS.md`, `claude/*` branches, co-author tra
 5. **Density, not presence.** Act on clusters.
 6. **A clean audit is a valid result.** Do not manufacture findings.
 
+## Voice — the strongest tells in prose
+
+Design and copy are one decision. These are the constructions that signal
+"nobody meant this". Density only — never single hits.
+
+| Tell | Example | Why it's empty |
+|---|---|---|
+| **Negative parallelism** | "It's not just a tool, it's a platform" | Says nothing; the second half restates the first as a claim |
+| **Copulative avoidance** | "serves as", "stands as", "represents a" | Plain "is" was avoided for no reason — the reader feels the strain |
+| **Significance inflation** | "a pivotal moment", "is a testament to", "cornerstone of" | Adds importance instead of evidence |
+| **Vague attribution** | "Experts argue", "Studies show", nothing cited | Unfalsifiable. Name the source or cut the claim |
+| **Participle tail** | ", further underscoring its importance as…" | A clause that only asserts significance |
+| **Rule of three everywhere** | "resilience, cultural richness, and natural beauty" | The rhythm is the content; three nouns are seldom true |
+| **Even sentence rhythm** | variation <42 %, nothing shorter than 8 words | **The quietest tell and the hardest to fake away** |
+| **The challenges formula** | "Despite these challenges, X continues to…" | The formula, not the difficulty |
+| **Essay-shell opener** | "In a world where…", "Whether you're a…" | Delays the point |
+| **Closing summary** | "In conclusion", "In summary" | Says nothing the reader didn't just read |
+| **Inline-header lists** | `**Label:** text` × many | The most distinctive formatting habit |
+| **Chatbot leftovers** | "I hope this helps", "Certainly!", "[Your Company]" | **Not a style issue — unshipped work.** P0 |
+
+**Restore these** — deleting is half the job; prose with only slop removed reads
+sanded down:
+
+- plain copulatives: "there is a", "it has a", "was"
+- plain verbs: *wrote* not *authored*, *used* not *utilized*, *help* not *facilitate*
+- definitive claims: "the only", "the first", "one of the best"
+- qualifiers: "very", "perhaps", "tends to"
+- human joins: "as a result of", "the fact that", "in order to"
+- uneven rhythm: a four-word sentence beside a thirty-word one
+- specific nouns and real numbers instead of abstractions
+- an opinion with a subject attached to it
+
+**Root cause:** models regress to the mean. A specific fact ("invented the first
+train-coupling device") becomes a generic one ("a revolutionary titan of
+industry"). Every fix should restore the specificity that was flattened.
+
+**Do not flag:** perfect grammar, a single em dash, one long sentence, jargon the
+audience genuinely uses.
+
 ## Caveats found in practice
 
-- **K3 false-positives** when `:focus-visible` lives in a global stylesheet rather than the component. Verify by grepping `globals.css` before reporting it.
-- The scanners read **source**, so `audit-render.mjs` (headless Chrome) is the only way to catch overlap, clipping, sideways scroll and painted-contrast failures — a page can score 0 and still ship text stacked on itself at 420px.
-- `T1`/`T2` fire on font *names* — a brand that legitimately owns Inter must declare it in `unslop.style.json` or it will be flagged forever.
+- **Focus states false-positive** when `:focus-visible` lives in a global
+  stylesheet rather than the component. Grep `globals.css` before reporting
+  missing focus states — a wrong finding costs more trust than a missed one.
+- **Source reading is not enough.** No amount of catalogue-matching catches
+  overlap, clipping, sideways scroll or a contrast failure against the *painted*
+  background. A page can be clean by every rule here and still ship text stacked
+  on itself at 420px. Open the render.
+- **Font names are not verdicts.** A brand that legitimately owns Inter will be
+  flagged forever by a name-matching rule. Declare it in `DESIGN.md` §3 and the
+  conversation becomes "does it fit?" rather than "is it Inter?".
