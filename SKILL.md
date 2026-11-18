@@ -8,7 +8,7 @@ description: >
   do-design-new, do-design-review, do-design-renew, do-crazy.
 license: MIT
 metadata:
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # do-design

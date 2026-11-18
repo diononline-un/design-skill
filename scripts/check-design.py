@@ -58,9 +58,21 @@ SPACING_RE = re.compile(
     r"(?<![\w-])(?:padding|margin|gap|row-gap|column-gap|rowGap|columnGap)"
     r"(?:-?(?:top|right|bottom|left|inline|block|Top|Right|Bottom|Left|Inline|Block)"
     r"(?:-?(?:start|end|Start|End))?)?\s*:\s*([^;}\n]+)")
-# font-family declarations, plus any custom property whose value is a font stack
-FONT_RE = re.compile(r"(?<![\w-])(?:font-family|fontFamily|--[\w-]+(?=\s*:[^;}\n]*,[^;}\n]*"
-                     r"\b(?:serif|sans-serif|monospace|system-ui|cursive)\b))\s*:\s*([^;}\n]+)")
+# font-family declarations, plus any custom property whose value is a font stack.
+# CSS values end at ; or }. A JSX fontFamily value is one JS expression: a quoted
+# string ends at its own closing quote, anything else at the next , or }; otherwise
+# the match runs on into letterSpacing, padding and the rest of the style object.
+FONT_RE = re.compile(r"(?<![\w-])(?:(?:font-family|--[\w-]+(?=\s*:[^;}\n]*,[^;}\n]*"
+                     r"\b(?:serif|sans-serif|monospace|system-ui|cursive)\b))\s*:\s*([^;}\n]+)"
+                     r"|fontFamily\s*:\s*(\"[^\"\n]*\"|'[^'\n]*'|`[^`\n]*`|[^,;}\n]+))")
+
+
+def font_value(m):
+    if m.group(1) is not None:
+        return m.group(1)
+    v = m.group(2).strip()
+    # unwrap the JS string so "'Source Sans 3', serif" splits into its names
+    return v[1:-1] if len(v) >= 2 and v[0] == v[-1] and v[0] in "\"'`" else v
 FONT_FACE_RE = re.compile(r"@font-face\s*\{[^}]*\}")  # declaring a face is not using it
 TW_RADIUS_RE = re.compile(r"\brounded(?:-[a-z]{1,2})?-\[([^\]\s]+)\]")
 TW_SPACING_RE = re.compile(r"(?<![\w-])-?(?:[pm][trblxyse]?|gap(?:-[xy])?|space-[xy])-\[([^\]\s]+)\]")
@@ -280,7 +292,7 @@ def extract(root):
                         if px:  # 0 is never drift
                             rec(kind, raw, abs(px))
             for m in FONT_RE.finditer(line) if i not in face_lines else ():
-                for name in font_names(m.group(1)):
+                for name in font_names(font_value(m)):
                     rec("font", name)
             if GRADIENT_TEXT_RE.search(line):
                 rec("gradient-text", "background-clip: text")

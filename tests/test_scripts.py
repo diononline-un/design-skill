@@ -36,6 +36,17 @@ def test_check_design():
     assert run("scripts/check-design.py", "--root", FX / "copy")[0] == 2  # no paper
 
 
+def test_jsx_font_value_ends_at_its_quote():
+    # a JSX fontFamily value must not run on into letterSpacing, padding, borderRadius ...
+    code, out = run("scripts/check-design.py", "--root", FX / "jsx-font", "--json")
+    findings = json.loads(out)["findings"]
+    assert not [f for f in findings if (f.get("id") or f.get("rule")) == "font-outside-paper"], findings
+    assert code == 0, out
+    code, out = run("scripts/audit.py", "scan", FX / "jsx-font", "--json")
+    fonts = json.loads(out)["meta"]["fonts"]
+    assert [name for name, _ in fonts] == ["source sans 3"], fonts
+
+
 def test_colour_maths():
     import importlib.util
     spec = importlib.util.spec_from_file_location("cd", ROOT / "scripts" / "check-design.py")
